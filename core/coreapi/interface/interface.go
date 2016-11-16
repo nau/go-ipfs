@@ -9,16 +9,15 @@ import (
 	cid "gx/ipfs/QmcTcsTvfaeEBRFo1TkFgT8sRmgi1n1LTZpecfVP8fzpGD/go-cid"
 )
 
-// type CoreAPI interface {
-// 	ID() CoreID
-// 	Version() CoreVersion
-// }
-
 type Link ipld.Link
 
 type Reader interface {
 	io.ReadSeeker
 	io.Closer
+}
+
+type CoreAPI interface {
+	Unixfs() UnixfsAPI
 }
 
 type UnixfsAPI interface {
