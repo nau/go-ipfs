@@ -18,7 +18,8 @@ PATH=${BIN}:${PATH}
 test "$TEST_VERBOSE" = 1 && verbose=t
 
 # assert the `ipfs` we're using is the right one.
-if test `which ipfs` != ${BIN}/ipfs; then
+if test $(realpath $(which ipfs)) != $(realpath ${BIN}/ipfs); then
+	echo >&2 "$(which ipfs), $(realpath ${BIN}/ipfs)"
 	echo >&2 "Cannot find the tests' local ipfs tool."
 	echo >&2 "Please check test and ipfs tool installation."
 	exit 1

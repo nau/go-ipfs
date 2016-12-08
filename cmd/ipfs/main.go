@@ -1,4 +1,3 @@
-// cmd/ipfs implements the primary CLI binary for ipfs
 package main
 
 import (
@@ -67,7 +66,7 @@ func main() {
 // - run the command invocation
 // - output the response
 // - if anything fails, print error, maybe with help
-func mainRet() {
+func mainRet() int {
 	rand.Seed(time.Now().UnixNano())
 	ctx := logging.ContextWithLoggable(context.Background(), loggables.Uuid("session"))
 	var err error
@@ -174,6 +173,7 @@ func mainRet() {
 		printErr(err)
 		return 1
 	}
+	return 0
 }
 
 func (i *cmdInvocation) Run(ctx context.Context) (output io.Reader, err error) {
