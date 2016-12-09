@@ -114,7 +114,7 @@ func (adder *Adder) SetMfsRoot(r *mfs.Root) {
 	adder.mr = r
 }
 
-// Perform the actual add & pin locally, outputting results to reader
+// Constructs a node from reader's data, and adds it. Doesn't pin.
 func (adder Adder) add(reader io.Reader) (node.Node, error) {
 	chnk, err := chunk.FromString(reader, adder.Chunker)
 	if err != nil {
@@ -251,12 +251,16 @@ func (adder *Adder) outputDirs(path string, fsn mfs.FSNode) error {
 	}
 }
 
-// Add builds a merkledag from the a reader, pinning all objects to the local
-// datastore. Returns a key representing the root node.
+// Builds a merkledag from a reader, adds it to the node's blockstore,
+// and returns the key representing the root node.
+// If you want to pin it, use NewAdder() and Adder.PinRoot().
 func Add(n *core.IpfsNode, r io.Reader) (string, error) {
 	return AddWithContext(n.Context(), n, r)
 }
 
+// Same as Add(), but with a custom context.
+//
+// TODO: move the locks to PinRoot()
 func AddWithContext(ctx context.Context, n *core.IpfsNode, r io.Reader) (string, error) {
 	defer n.Blockstore.PinLock().Unlock()
 
