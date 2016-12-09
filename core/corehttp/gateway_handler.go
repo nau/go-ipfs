@@ -253,14 +253,8 @@ func (i *gatewayHandler) getOrHeadHandler(ctx context.Context, w http.ResponseWr
 				return
 			}
 
-			p, err := path.ParsePath(urlPath + "/index.html")
-			if err != nil {
-				internalWebError(w, err)
-				return
-			}
-
 			// return index page instead.
-			dr, err := i.api.Unixfs().Cat(ctx, p.String())
+			dr, err := i.api.Unixfs().Cat(ctx, link.Cid)
 			if err != nil {
 				internalWebError(w, err)
 				return
