@@ -9,6 +9,8 @@ import (
 	cid "gx/ipfs/QmcTcsTvfaeEBRFo1TkFgT8sRmgi1n1LTZpecfVP8fzpGD/go-cid"
 )
 
+type Ref interface{}
+
 type Link ipld.Link
 
 type Reader interface {
@@ -22,8 +24,8 @@ type CoreAPI interface {
 
 type UnixfsAPI interface {
 	Add(context.Context, io.Reader) (*cid.Cid, error)
-	Cat(context.Context, string) (Reader, error)
-	Ls(context.Context, string) ([]*Link, error)
+	Cat(context.Context, Ref) (Reader, error)
+	Ls(context.Context, Ref) ([]*Link, error)
 }
 
 // type ObjectAPI interface {
